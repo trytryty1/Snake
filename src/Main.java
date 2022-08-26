@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -23,10 +24,9 @@ public class Main {
 		Vector2 apple = new Vector2(15,15);
 		Vector2 direction = new Vector2();
 		
-		JFrame frame = new JFrame();
+		JFrame frame = new JFrame("Snake");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(WORLD_SIZE*TILE_SIZE, WORLD_SIZE*TILE_SIZE);
-		frame.setContentPane(new JPanel() {
+		JPanel panel = new JPanel() {
 			/**
 			 * 
 			 */
@@ -41,19 +41,24 @@ public class Main {
 				
 				g.setColor(Color.GREEN);
 				for (Vector2 vec: snake) {
-					g.fillRect(vec.x*TILE_SIZE, vec.y*TILE_SIZE, TILE_SIZE, TILE_SIZE);
+					g.fillRect(vec.x*TILE_SIZE + 1, vec.y*TILE_SIZE + 1, TILE_SIZE - 2, TILE_SIZE - 2);
 				}
 				
-				g.fillRect(head.x * TILE_SIZE, head.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+				g.fillRect(head.x * TILE_SIZE + 1, head.y * TILE_SIZE + 1, TILE_SIZE - 2, TILE_SIZE - 2);
 				
 				g.setColor(Color.RED);
-				g.fillRect(apple.x * TILE_SIZE, apple.y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+				g.fillRect(apple.x * TILE_SIZE + 1, apple.y * TILE_SIZE + 1, TILE_SIZE - 2, TILE_SIZE - 2);
 				
 				g.setColor(Color.WHITE);
 				g.drawString("Length: " + Main.length, 10, 15);
 			}
-		});
-		
+		};
+
+		panel.setPreferredSize 	(new Dimension(WORLD_SIZE*TILE_SIZE, WORLD_SIZE*TILE_SIZE));
+		frame.getContentPane().add(panel);
+		frame.pack();
+		frame.setResizable(false);
+
 		frame.addKeyListener(new KeyListener() {
 
 			@Override
@@ -85,7 +90,7 @@ public class Main {
 			}
 			
 		});
-		
+
 		frame.setVisible(true);
 		
 		while(true) {
